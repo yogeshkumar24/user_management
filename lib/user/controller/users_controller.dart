@@ -40,7 +40,7 @@ class UserController extends GetxController {
   }
 
   Future searchUsers(String value) async {
-    if (value.isEmpty) {
+    if (value == null || value.isEmpty) {
       userSearchResults.value = userList;
     } else {
       final searchResults = userList.where((user) {

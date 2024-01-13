@@ -19,10 +19,10 @@ class _HomeScreenState extends State<HomeScreen> {
     getData();
   }
 
-  void getData() {
-    Future.delayed(Duration.zero, () async {
-      await userController.fetchUsers();
-    });
+  void getData() async {
+    // Future.delayed(Duration.zero, () async {
+    await userController.fetchUsers();
+    // });
   }
 
   @override
@@ -66,42 +66,42 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                             )
                           : ListTile(
-                            onTap: (){
-                              Get.to(UserDetailsScreen(
-                                userModel: userController.userList[index],
-                              ));
-                            },
-                            contentPadding: const EdgeInsets.all(16),
-                            title: Text(
-                              user.username!,
-                              style: const TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
+                              onTap: () {
+                                Get.to(UserDetailsScreen(
+                                  userModel: userController.userList[index],
+                                ));
+                              },
+                              contentPadding: const EdgeInsets.all(16),
+                              title: Text(
+                                user.username!,
+                                style: const TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
-                            ),
-                            subtitle: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const SizedBox(height: 6),
-                                Text(
-                                  user.email!,
-                                  style: const TextStyle(
-                                    fontSize: 14,
+                              subtitle: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const SizedBox(height: 6),
+                                  Text(
+                                    user.email!,
+                                    style: const TextStyle(
+                                      fontSize: 14,
+                                    ),
                                   ),
-                                ),
-                                const SizedBox(height: 6),
-                                Text(
-                                  user.phone!,
-                                  style: const TextStyle(
-                                    fontSize: 14,
+                                  const SizedBox(height: 6),
+                                  Text(
+                                    user.phone!,
+                                    style: const TextStyle(
+                                      fontSize: 14,
+                                    ),
                                   ),
-                                ),
-                              ],
-                            ),
-                            trailing: const Icon(
-                              Icons.keyboard_arrow_right_rounded,
-                            ),
-                          );
+                                ],
+                              ),
+                              trailing: const Icon(
+                                Icons.keyboard_arrow_right_rounded,
+                              ),
+                            );
                     },
                   );
                 }

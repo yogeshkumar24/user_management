@@ -39,8 +39,8 @@ class UserDbService {
 
   Future<void> saveUsers(List<UserModel> users) async {
     try {
+      await database.delete(userTableName);
       Batch batch = database.batch();
-
       for (UserModel user in users) {
         batch.insert(userTableName, {'userJson': jsonEncode(user.toJson())});
       }
@@ -49,5 +49,4 @@ class UserDbService {
       Log.e('saveUsers: $e');
     }
   }
-
 }
