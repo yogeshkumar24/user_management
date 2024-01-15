@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:user_management/user/controller/users_controller.dart';
-import 'package:user_management/user/ui/screen/user_details_screen.dart';
+import 'package:user_management/shared/shared.dart';
+import 'package:user_management/shared/widget/custom_app_bar.dart';
+import 'package:user_management/shared/widget/custom_text_field.dart';
+import 'package:user_management/user/user.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  const HomeScreen({super.key});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -16,92 +18,49 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    getData();
+    fetchUsers();
   }
 
-  void getData() async {
-    // Future.delayed(Duration.zero, () async {
-    await userController.fetchUsers();
-    // });
+  void fetchUsers() {
+    Future.delayed(Duration.zero, () async {
+      await userController.fetchUsers();
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Users"),
+      appBar: const CustomAppBar(
+        title: StringConstant.homeScreenTitle,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            TextFormField(
-              onChanged: (query) {
-                userController.searchUsers(query);
-              },
-              decoration: InputDecoration(
-                border:
-                    OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
-                hintText: 'Search',
-                prefixIcon: const Icon(Icons.search),
-              ),
+            CustomTextField(
+              controller: TextEditingController(),
+              prefixIcon: const Icon(Icons.search),
+              onChanged: userController.searchUsers,
+              hintText: StringConstant.searchHintText,
             ),
             Expanded(
               child: Obx(() {
+                final userList = userController.userSearchResults.toList();
                 if (userController.isLoading.value) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
+                  return const ProgressIndicatorWidget();
+                } else if (userList.isEmpty) {
+                  return const Center(child: Text(StringConstant.userNotFound));
                 } else {
-                  return ListView.builder(
+                  return ListView.separated(
                     shrinkWrap: true,
-                    itemCount: userController.userSearchResults.length,
+                    itemCount: userList.length,
+                    separatorBuilder: (context, index) {
+                      return const Divider();
+                    },
                     itemBuilder: (context, index) {
-                      var user = userController.userSearchResults[index];
-                      return user == null
-                          ? const Center(
-                              child: Text(
-                                "No Data Available",
-                                style: TextStyle(color: Colors.red),
-                              ),
-                            )
-                          : ListTile(
-                              onTap: () {
-                                Get.to(UserDetailsScreen(
-                                  userModel: userController.userList[index],
-                                ));
-                              },
-                              contentPadding: const EdgeInsets.all(16),
-                              title: Text(
-                                user.username!,
-                                style: const TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              subtitle: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  const SizedBox(height: 6),
-                                  Text(
-                                    user.email!,
-                                    style: const TextStyle(
-                                      fontSize: 14,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 6),
-                                  Text(
-                                    user.phone!,
-                                    style: const TextStyle(
-                                      fontSize: 14,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              trailing: const Icon(
-                                Icons.keyboard_arrow_right_rounded,
-                              ),
-                            );
+                      return UserListTileWidget(
+                        user: userList[index],
+                      );
                     },
                   );
                 }
