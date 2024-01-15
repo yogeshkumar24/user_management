@@ -27,7 +27,7 @@ class CustomTextField extends StatelessWidget {
           prefixIcon: prefixIcon,
           hintText: hintText,
           border: const OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(20)))),
+              borderRadius: BorderRadius.all(Radius.circular(8)))),
     );
   }
 }

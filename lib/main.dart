@@ -26,3 +26,4 @@ void initDI() {
   Get.put(UserDbService());
   Get.put(UserController());
 }
+

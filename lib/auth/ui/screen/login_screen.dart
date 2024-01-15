@@ -47,7 +47,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             return Validator.nameValidator(
                                 value, StringConstant.userName);
                           },
-                          hintText: StringConstant.loginUserHintText,
+                          hintText: StringConstant.userName,
                         ),
                         const SizedBox(
                           height: 20,
@@ -66,7 +66,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             return Validator.nameValidator(
                                 value, StringConstant.password);
                           },
-                          hintText: StringConstant.loginPasswordHintText,
+                          hintText: StringConstant.password.capitalizeFirst!,
                         ),
                         const SizedBox(
                           height: 8,
@@ -76,6 +76,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           height: 20,
                         ),
                         Container(
+                          width: double.infinity,
                           alignment: Alignment.center,
                           child: FilledButton(
                             onPressed: () async {
@@ -90,7 +91,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                 }
                               }
                             },
-                            child: const Text(StringConstant.loginButtonText),
+                            child: const Padding(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 30, vertical: 10),
+                                child: Text(StringConstant.loginButtonText)),
                           ),
                         )
                       ],

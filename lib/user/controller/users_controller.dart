@@ -1,6 +1,8 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 import 'package:user_management/shared/shared.dart';
+import 'package:user_management/shared/widget/custom_alert_dialog.dart';
 import 'package:user_management/user/user.dart';
 
 class UserController extends GetxController {
@@ -17,7 +19,11 @@ class UserController extends GetxController {
       isLoading.value = false;
     } catch (e) {
       isLoading.value = false;
-      AppUtils.showToast(e.toString());
+      if (e is DioException) {
+        CustomAlertDialog.show(title: "Error", message: e.message.toString());
+      } else {
+        AppUtils.showToast(e.toString());
+      }
     }
   }
 

@@ -12,7 +12,6 @@ dependencies:
   flutter:
     sdk: flutter
 
-
   cupertino_icons: ^1.0.2
   fluttertoast: ^8.2.4
   get: ^4.6.5
